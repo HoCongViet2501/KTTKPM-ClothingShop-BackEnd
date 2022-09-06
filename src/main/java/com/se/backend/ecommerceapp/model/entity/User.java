@@ -1,0 +1,38 @@
+package com.se.backend.ecommerceapp.model.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Table(name = "users")
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "first_name")
+    private String firstName;
+    
+    @Column(name = "last_name")
+    private String lastName;
+    
+    private String email;
+    
+    private String address;
+    
+    private boolean gender;
+    
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+    
+    
+}

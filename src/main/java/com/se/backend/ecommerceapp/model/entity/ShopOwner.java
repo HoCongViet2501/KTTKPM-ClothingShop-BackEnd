@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Setter
@@ -30,4 +31,7 @@ public class ShopOwner {
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    
+    @OneToMany(mappedBy = "shopOwner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Product> products;
 }

@@ -45,6 +45,10 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
     
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private ShopOwner shopOwner;
+    
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Image> images;

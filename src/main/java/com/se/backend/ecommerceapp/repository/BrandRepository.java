@@ -1,12 +1,10 @@
 package com.se.backend.ecommerceapp.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
 import com.se.backend.ecommerceapp.model.entity.Brand;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource
+@Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
-	
 }

@@ -6,20 +6,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
-@Getter
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
-public class BrandRequest {
-    
-    @NotNull(message = "Required")
+@NoArgsConstructor
+public class ProductRequest {
+    @NotNull(message = "required")
     private String name;
     
     private String description;
     
-    @NotNull(message = "Required")
-    private String phoneNumber;
+    @NotNull(message = "required")
+    private double price;
     
-    private String address;
+    private Date createdDate;
+    
+    private Date updatedDate;
 }

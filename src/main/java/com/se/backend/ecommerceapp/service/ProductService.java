@@ -1,14 +1,19 @@
 package com.se.backend.ecommerceapp.service;
 
+import com.se.backend.ecommerceapp.dto.request.ProductRequest;
+import com.se.backend.ecommerceapp.dto.response.ProductResponse;
+
 import java.util.List;
 
-import com.se.backend.ecommerceapp.model.entity.Product;
-
 public interface ProductService {
-	Product findProduct(Long id);
-    List<Product> findAll();
-    Product save(Product product);
-    Product update(Product product);
-    void delete(Product product);
-
+    List<ProductResponse> findProductByName(String name);
+    
+    List<ProductResponse> getListProduct();
+    
+    ProductResponse addProduct(ProductRequest productRequest);
+    
+    ProductResponse updateProduct(long productId, ProductRequest productRequest);
+    
+    void delete(long productId);
+    
 }

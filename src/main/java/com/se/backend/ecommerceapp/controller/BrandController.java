@@ -2,6 +2,7 @@ package com.se.backend.ecommerceapp.controller;
 
 import java.util.List;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/brand")
+@CircuitBreaker(name="service-java")
 public class BrandController {
 	
 	@Autowired

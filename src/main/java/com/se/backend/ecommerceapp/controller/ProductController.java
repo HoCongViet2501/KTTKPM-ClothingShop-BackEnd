@@ -3,6 +3,7 @@ package com.se.backend.ecommerceapp.controller;
 import com.se.backend.ecommerceapp.dto.request.ProductRequest;
 import com.se.backend.ecommerceapp.dto.response.ProductResponse;
 import com.se.backend.ecommerceapp.service.ProductService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@CircuitBreaker(name="service-java")
 public class ProductController {
     
     @Autowired

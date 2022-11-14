@@ -5,6 +5,7 @@ import com.se.backend.ecommerceapp.dto.request.LoginRequest;
 import com.se.backend.ecommerceapp.dto.response.AccountResponse;
 import com.se.backend.ecommerceapp.dto.response.LoginResponse;
 import com.se.backend.ecommerceapp.service.AuthService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -19,6 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
+@CircuitBreaker(name = "service-java")
 public class AuthController {
     private final AuthService authenticationService;
     

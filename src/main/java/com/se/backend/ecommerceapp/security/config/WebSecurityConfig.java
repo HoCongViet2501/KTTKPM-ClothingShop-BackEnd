@@ -60,11 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**").permitAll()
-                .antMatchers("api/auth/**").permitAll()
-                .antMatchers("/api/categories/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/actuator/health").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/category/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/products/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/api/users/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/api/brands/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/images/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and().apply(jwtConfigurer);
     }

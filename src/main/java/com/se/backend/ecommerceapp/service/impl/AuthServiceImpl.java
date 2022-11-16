@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             String role = authentication.getAuthorities().iterator().next().getAuthority();
             String token = jwtProvider.createToken(username, String.valueOf(role));
-            return new LoginResponse(username, password, role, token);
+            return new LoginResponse(role, token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             throw new ForbiddenException("username or password is incorrect!");

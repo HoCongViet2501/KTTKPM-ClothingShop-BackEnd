@@ -4,6 +4,7 @@ import com.se.backend.ecommerceapp.dto.request.ProductRequest;
 import com.se.backend.ecommerceapp.dto.response.ProductResponse;
 import com.se.backend.ecommerceapp.service.ProductService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/products")
 @CircuitBreaker(name="service-java")
+@Retry(name="service-java", fallbackMethod = "fallback")
 public class ProductController {
     
     @Autowired
@@ -54,7 +56,6 @@ public class ProductController {
     })
     public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductRequest productRequest) {
         ProductResponse productResponse = this.productService.addProduct(productRequest);
-        System.out.println(productRequest.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(productResponse);
     }
     
@@ -76,9 +77,14 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "deleted product"),
             @ApiResponse(responseCode = "404", description = "not found id")
     })
+    @Retry(name="service-java", fallbackMethod = "fallback")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
         this.productService.delete(productId);
         return ResponseEntity.ok().body("deleted");
+    }
+    
+    public ResponseEntity<Object> fallback() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Service is down! Fallback method called");
     }
     
 }

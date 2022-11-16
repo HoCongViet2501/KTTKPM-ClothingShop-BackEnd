@@ -3,7 +3,10 @@ package com.se.backend.ecommerceapp.controller;
 import java.util.List;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @CrossOrigin("*")
 @RequestMapping("/api/brand")
 @CircuitBreaker(name="service-java")
+@Retry(name="service-java", fallbackMethod = "fallback")
 public class BrandController {
 	
 	@Autowired
@@ -51,5 +55,9 @@ public class BrandController {
     public void delete(@RequestBody Brand brand) {
     	brandService.delete(brand);
 
+    }
+    
+    public ResponseEntity<Object> fallback() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallback method called");
     }
 }

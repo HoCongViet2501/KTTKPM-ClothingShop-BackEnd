@@ -6,6 +6,7 @@ import com.se.backend.ecommerceapp.dto.response.AccountResponse;
 import com.se.backend.ecommerceapp.dto.response.LoginResponse;
 import com.se.backend.ecommerceapp.service.AuthService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,6 +37,7 @@ public class AuthController {
             @ApiResponse(responseCode = "202", description = "login successfully!"),
             @ApiResponse(responseCode = "403", description = "incorrect username or password")
     })
+    @Retry(name = "service-java", fallbackMethod = "loginFallback")
     public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest loginRequest) {
         String password = loginRequest.getPassword();
         LoginResponse loginResponse = this.authenticationService.login(loginRequest.getUsername(), password);
@@ -48,6 +50,7 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Create New User successfully")
     })
+    @Retry(name = "service-java", fallbackMethod = "registerFallback")
     public ResponseEntity<Object> register(@Valid @RequestBody AccountRequest accountRequest) {
         AccountResponse accountResponse = this.authenticationService.register(accountRequest);
         return ResponseEntity.ok().body(accountResponse);
@@ -58,5 +61,13 @@ public class AuthController {
     public ResponseEntity<String> logoutUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         this.authenticationService.logout(httpServletRequest, httpServletResponse);
         return ResponseEntity.ok("Logout.user.successfully!");
+    }
+    
+    public ResponseEntity<String> fallBackLogin() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallback method called !Cannot login now");
+    }
+    
+    public ResponseEntity<String> registerFallback() {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallback method called !Cannot register now");
     }
 }

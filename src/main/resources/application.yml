@@ -24,5 +24,9 @@ resilience4j:
         permitted-number-of-calls-in-half-open-state: 4
         sliding-window-type: COUNT_BASED
         sliding-window-size: 10
-  
+  retry:
+    instances:
+      service-java:
+        wait-duration: 2s
+        max-attempts: 3
         

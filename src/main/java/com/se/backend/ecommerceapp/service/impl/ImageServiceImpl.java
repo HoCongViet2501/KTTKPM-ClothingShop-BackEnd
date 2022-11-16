@@ -32,7 +32,7 @@ import static java.net.URLEncoder.encode;
 @Service
 public class ImageServiceImpl implements ImageService {
     
-    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/electronic-component-store.appspot.com/o/%s?alt=media&token=%s";
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/ecommerce-app-74670.appspot.com/o/%s?alt=media&token=%s";
     
     private final ImageRepository imageRepository;
     private final ProductRepository productRepository;
@@ -66,12 +66,12 @@ public class ImageServiceImpl implements ImageService {
     }
     
     private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("electronic-component-store.appspot.com", fileName);
+        BlobId blobId = BlobId.of("ecommerce-app-74670.appspot.com", fileName);
         Map<String, String> map = new HashMap<>();
         map.put("firebaseStorageDownloadTokens", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(map).setContentType("media").build();
         Credentials credentials = GoogleCredentials
-                .fromStream(Files.newInputStream(Paths.get("src/main/resources/static/credentials.json")));
+                .fromStream(Files.newInputStream(Paths.get("E:\\KTTKPM\\code\\Project-Course-KTTKPM\\EcommerceApp-BackEnd\\src\\main\\resources\\static\\credentials.json")));
         Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
         storage.create(blobInfo, Files.readAllBytes(file.toPath()));
         return String.format(DOWNLOAD_URL, encode(fileName, StandardCharsets.UTF_8), encode(fileName, StandardCharsets.UTF_8));

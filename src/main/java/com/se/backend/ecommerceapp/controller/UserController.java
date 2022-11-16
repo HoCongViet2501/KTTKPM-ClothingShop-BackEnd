@@ -2,6 +2,8 @@ package com.se.backend.ecommerceapp.controller;
 
 import java.util.List;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/users ")
+@Retry(name="service-java")
+@CircuitBreaker(name="service-java")
 public class UserController {
 	@Autowired
     private UserService userService;

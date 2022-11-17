@@ -32,25 +32,27 @@ public class AuthController {
     }
     
     @PostMapping("/login")
+    @Retry(name = "service-java", fallbackMethod = "fallBackLogin")
+    
     @Operation(summary = "login for user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "login successfully!"),
             @ApiResponse(responseCode = "403", description = "incorrect username or password")
     })
-    @Retry(name = "service-java", fallbackMethod = "loginFallback")
     public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest loginRequest) {
-        String password = loginRequest.getPassword();
-        LoginResponse loginResponse = this.authenticationService.login(loginRequest.getUsername(), password);
-        return ResponseEntity.accepted().body(loginResponse);
+            String password = loginRequest.getPassword();
+            LoginResponse loginResponse = this.authenticationService.login(loginRequest.getUsername(), password);
+            return ResponseEntity.accepted().body(loginResponse);
     }
     
     @Operation(summary = "register for new user")
     @PostMapping("/register")
+    @Retry(name = "service-java", fallbackMethod = "registerFallback")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Create New User successfully")
     })
-    @Retry(name = "service-java", fallbackMethod = "registerFallback")
+    
     public ResponseEntity<Object> register(@Valid @RequestBody AccountRequest accountRequest) {
         AccountResponse accountResponse = this.authenticationService.register(accountRequest);
         return ResponseEntity.ok().body(accountResponse);
@@ -63,11 +65,11 @@ public class AuthController {
         return ResponseEntity.ok("Logout.user.successfully!");
     }
     
-    public ResponseEntity<String> fallBackLogin() {
+    public ResponseEntity<String> fallBackLogin(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallback method called !Cannot login now");
     }
     
-    public ResponseEntity<String> registerFallback() {
+    public ResponseEntity<String> registerFallback(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Fallback method called !Cannot register now");
     }
 }

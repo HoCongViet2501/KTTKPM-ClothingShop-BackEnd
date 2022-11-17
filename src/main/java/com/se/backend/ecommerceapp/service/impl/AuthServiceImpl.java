@@ -11,6 +11,7 @@ import com.se.backend.ecommerceapp.repository.AccountRepository;
 import com.se.backend.ecommerceapp.security.jwt.JwtProvider;
 import com.se.backend.ecommerceapp.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -57,6 +58,7 @@ public class AuthServiceImpl implements AuthService {
     
     
     @Override
+    @Cacheable(value = "User")
     public AccountResponse register(AccountRequest accountRequest) {
         Account account = MapData.mapOne(accountRequest, Account.class);
         account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));

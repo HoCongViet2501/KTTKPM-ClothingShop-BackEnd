@@ -14,6 +14,7 @@ import com.se.backend.ecommerceapp.repository.ProductRepository;
 import com.se.backend.ecommerceapp.service.ImageService;
 import org.apache.maven.InternalErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +45,7 @@ public class ImageServiceImpl implements ImageService {
     }
     
     @Override
+    @CachePut(value = "Image")
     public ImageDTO upload(MultipartFile multipartFile, Long productId) throws InternalErrorException {
         try {
             String fileName = multipartFile.getOriginalFilename();

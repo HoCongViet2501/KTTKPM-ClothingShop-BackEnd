@@ -29,6 +29,11 @@ resilience4j:
       service-java:
         wait-duration: 2s
         max-attempts: 3
+  timelimiter:
+    instances:
+        service-java:
+            timeout-duration: 2s
+            cancel-running-future: true
 spring:
   cache:
     type: redis

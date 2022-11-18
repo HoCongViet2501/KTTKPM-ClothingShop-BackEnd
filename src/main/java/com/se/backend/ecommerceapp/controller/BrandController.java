@@ -46,15 +46,14 @@ public class BrandController {
         return brandService.save(brand);
     }
 
-    @PutMapping
-    public Brand update(@RequestBody Brand brand) {
-        return brandService.update(brand);
+    @PutMapping("{id}")
+    public Brand update(@PathVariable Long id,@RequestBody Brand brand) {
+        return brandService.updateBrand(brand, id);
     }
 
-    @DeleteMapping
-    public void delete(@RequestBody Brand brand) {
-    	brandService.delete(brand);
-
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {
+    	brandService.delete(id);
     }
     
     public ResponseEntity<Object> fallback() {

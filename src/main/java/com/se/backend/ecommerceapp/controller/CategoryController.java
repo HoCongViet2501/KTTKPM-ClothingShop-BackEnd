@@ -20,11 +20,11 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/category")
-@CircuitBreaker(name="service-java")
-@Retry(name="service-java")
+@CircuitBreaker(name = "service-java")
+@Retry(name = "service-java")
 public class CategoryController {
-	
-	@Autowired
+
+    @Autowired
     private CategoryService categoryService;
 
     @GetMapping("{id}")
@@ -42,14 +42,14 @@ public class CategoryController {
         return categoryService.save(category);
     }
 
-    @PutMapping
-    public Category update(@RequestBody Category category) {
-        return categoryService.update(category);
+    @PutMapping("{id}")
+    public Category update(@RequestBody Category category, @PathVariable Long id) {
+        return categoryService.updateCategory(category, id);
     }
 
     @DeleteMapping
     public void delete(@RequestBody Category category) {
-    	categoryService.delete(category);
+        categoryService.delete(category);
     }
-	
+
 }

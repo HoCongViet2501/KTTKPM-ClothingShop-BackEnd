@@ -58,7 +58,6 @@ public class AuthServiceImpl implements AuthService {
     
     
     @Override
-    @Cacheable(value = "User")
     public AccountResponse register(AccountRequest accountRequest) {
         Account account = MapData.mapOne(accountRequest, Account.class);
         account.setPassword(passwordEncoder.encode(accountRequest.getPassword()));
